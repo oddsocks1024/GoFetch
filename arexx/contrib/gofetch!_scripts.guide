@@ -1,0 +1,107 @@
+@DATABASE GoFetch!_Scripts.guide
+@$VER: GoFetch!_Scripts.guide 1.0 (29 Sept 99) © 1999 Steve Bridges
+@AUTHOR "Steve Bridges"
+@© "GoFetch!_Scripts.guide © 1999 Steve Bridges"
+@INDEX "INDEX"
+
+
+@node "MAIN"
+@TITLE "Contents"
+@next "Yam
+
+
+            @{b}Two Arexx Scripts for GoFetch!@{ub}
+                     @{b}Version 1.0@{ub}
+
+ _____________________________________________________________
+
+
+                 @{" Yam2GoFetch!.rexx  " link "Yam" @}
+                 @{" Batch2GoFetch!rexx " link "Batch" @}
+                 
+@endnode
+
+@node "Yam"
+@TITLE "Yam2GoFetch!"
+@next "Batch"
+@prev "MAIN"
+
+  @{b}Yam2GoFetch.rexx@{ub}
+
+  Is a script to batch download files from Aminet Recent files.
+
+  It was written to work from Yam using Aminet Recent e-mails
+  but any Recent file will work. As Yam has it's own built in 
+  text clipping (to the clipboard) it is simplier to use from 
+  within Yam. Powersnap or the Snap facility within MCP is
+  required to paste the clipped text into the requester. It is
+  best to clip the text in, as the script relies on the spacing
+  between the file name and the path to determine if the text
+  is a valid path and file. The script then makes up a batchfile
+  which is sent to the profile list in GoFetch!. Or the batchfile
+  can be saved for later use with @{"Batch2GoFetch!.rexx" link "Batch"@}.
+  
+  @{b}Requirements@{ub}
+
+  @{fg fill}PowerSnap@{fg text}            Aminet.....util/cdity/PowerSnap22a.lha
+  @{fg fill}rexxreqtools.library@{fg text} Aminet.....util/rexx/RexxReqTools.lha
+  @{fg fill}reqtools.library@{fg text}     Aminet.....util/libs/ReqToolsUser.lha
+   
+  @{b}Adjustment@{ub}
+
+  Change the paths to suit your set-up.
+ 
+  @{fg shine}gofetch_path = 'AmiTCP:GoFetch/GoFetch!'@{fg text} Line 21
+  @{fg shine}miami_path =   'AmiTCP:Miami/Miami'@{fg text}      Line 22
+  @{fg shine}settings =     'Miami:Miami.default'@{fg text}     Line 23
+
+  Enter the name of your nearest Aminet server aand the path to the site.
+
+  @{fg shine}site =         'ftp.demon.co.uk'@{fg text}         Line 25
+  @{fg shine}dir_address =  '/pub/mirrors/aminet/'@{fg text}    Line 26
+
+  Set the path to the where you want the batchfile saved.
+
+  @{fg shine}batch_path =   'Yam:gofetch.batch'@{fg text}       Line 28
+  
+  @{b}Yam Setup@{ub}
+
+  Just enter it as one of Yams Arexx scripts in the configuration,
+  without "open window" and "wait for termination".
+  
+@endnode
+
+@node "Batch"
+@TITLE "Batch2GoFetch!"
+@next "MAIN"
+@prev "Yam"
+
+  @{b}Batch2GoFetch.rexx@{ub}
+
+  Is a script to batch download files from Aminet from a file
+  built up by @{"Yam2GoFetch!.rexx" link "Yam"@}.
+  
+  @{b}Requirements@{ub}
+
+  @{fg fill}rexxreqtools.library@{fg text} Aminet.....util/rexx/RexxReqTools.lha
+  @{fg fill}reqtools.library@{fg text}     Aminet.....util/libs/ReqToolsUser.lha
+    
+  @{b}Adjustments@{ub}
+
+  Change the paths to suit your set-up.
+
+  @{fg shine}gofetch_path = 'AmiTCP:GoFetch/GoFetch!'@{fg text} Line 22
+  @{fg shine}miami_path =   'AmiTCP:Miami/Miami'@{fg text}      Line 23
+  @{fg shine}settings =     'Miami:Miami.default'@{fg text}     Line 24
+ 
+  Enter the name of your nearest Aminet server.
+
+  @{fg shine}site =         'ftp.demon.co.uk'@{fg text}         Line 25
+
+  Set the path to the batchfile the same as you set it in 
+  @{"Yam2GoFetch!.rexx" link "Yam"@}.
+
+  @{fg shine}batch_file =   'Yam:gofetch.batch'@{fg text}       Line 27
+  
+@endnode
+

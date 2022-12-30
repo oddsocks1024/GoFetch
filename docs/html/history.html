@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Program History</title>
+  <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body>
+<a href="main.html">CONTENTS</a> | <a href="bug_reports.html">PREV</a> | <a href="future.html">NEXT</a>
+
+                                    <CENTER><FONT SIZE="5"><u>History</u></FONT></CENTER>
+<P>
+<b>Version 0.9b</b>
+<P>
+    First Public Beta Release
+<HR>
+<P>
+<B>Version 0.95b</B>
+<P>
+    Second Public Beta Release<BR>
+    <B>Bug Fixes:</B><BR>
+        -Now Snapshots Transfer Window. <I>(Jostein Klemmetsrud)</I><BR>
+        -Now Snapshots Add Window<BR>
+        -Now Snapshots Edit Window<BR>
+        -Anon Checkmark is now set if profile is anonymous<BR>
+        -Changed timeout to 25 seconds (was 40)<BR>
+        -Fixed continuous downloading. Previously it would not continue onto the
+        next profile if the main window was not selected. This was due to a quirk
+        in MUI.<BR>
+        -Moved location of profiles file to the program directory. This might
+        resolve conflicts with HappyENV. <I>(Andreas Boerner)</I><BR>
+        -Fixed RC 421 Problem. Previously if Go Fetch! received a code 421 on
+        login, it would send QUIT then get stuck in a Busy Loop.
+        <I>(Jostein Klemmetsrud)</I><BR>
+        -It now continues onto the next profile, if the file is not found on the
+        server <I>(Andreas Boerner)</I><BR>
+        -Various code optimisations<BR>
+    <B>New Features:</B><BR>
+        -Adds comments to downloaded files. <I>(Thrasyvoulos Theologou)</I><BR>
+        -Added Site Directory<BR>
+    <B>New Arexx Commands</B><BR>
+        addanonprofile <I>(Stephen Bridges)</I><BR>
+        addsite<BR>
+        gofetch <I>(Duane McDonnell, Stephen Bridges)</I><BR>
+        stop<BR>
+        windowopen<BR>
+    <B>New ARexx Scripts</B><BR>
+        MiamiStartGF.rexx<BR>
+        MiamiStopGF.rexx<BR>
+        AmFTPtoGoFetch.rexx<BR>
+        browser.rexx - UPDATED<BR>
+</body>
+</html>

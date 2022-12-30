@@ -1,0 +1,154 @@
+<html>
+<head>
+  <title>Arexx Scripts</title>
+  <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body>
+<a href="main.html">CONTENTS</a> | <a href="arexx.html">PREV</a> | <a href="tool_types.html">NEXT</a>
+<hr>
+
+                                 <CENTER><u><FONT SIZE=5>Arexx Scripts</u></FONT></CENTER>
+<P>
+These scripts are designed to integrate Go Fetch with other applications, for
+example Aweb-II which allows you to automatically create profiles. Scripts for
+the other browsers such as Voyager and IBrowse as soon as they have decent AREXX
+ports.
+<P>
+If you have any AREXX scripts which integrate Go Fetch! into other software,
+please feel free to E-Mail me them and you'll receive a FREE keyfile for future
+versions of Go Fetch!
+<P>
+Please note that any submitted AREXX scripts will be distributed with future
+versions of Go Fetch!. Upon submitting the author gives their permission for Ian
+Chapman and Zeus Developments to distribute and modify the code. Any
+modifcations would be commented as so in the source. The original author will
+have full credits in the source.
+<P>
+                                 <CENTER><u><FONT SIZE=5><B>The Script(s)</B></u></FONT></CENTER>
+<P>
+                                 <CENTER><u><FONT SIZE=5><B>browser.rexx</B></u></FONT></CENTER>
+<P>
+Notes:<BR>
+This script has only been tested on Aweb-II version 3.0 and therefore I cannot
+guarantee it's compatibility with different versions. The installation procedure
+may differ depending on your version of Aweb.
+<P>
+There are two ways in which you can use the script within Aweb. For maximum
+flexibility you probably want to use both.
+<P>
+<B>Use: Method 1</B><BR>
+<B>Installation in Aweb (via the AREXX Menu)</B>.
+<P>
+Method 1 uses the AREXX script in the AREXX menu of Aweb. This allows you to
+mark text (as if you were doing a copy & paste) and selecting the AREXX script
+from the menu, it will automatically create a new profile.
+<P>
+<OL>
+<LI>Open Settings Menu</LI>
+<LI>Choose GUI Settings</LI>
+<LI>Select the AREXX tab.</LI>
+<LI>Press ADD and fill in the following fields.<BR>
+    Title = Send to Go Fetch!<BR>
+    Macro = <path to browser.rexx> AWEBSEL</LI>
+</OL>
+<P>
+<B>Use: Method 2</B><BR>
+<B>Installation in Aweb (via PopUp Menus)</B>
+<P>
+Method 2 uses the AREXX script in a popup menu. This allows you to press the
+right mouse button over a link and send the link to Go Fetch! and a profile will
+be created for you.
+<P>
+<OL>
+<LI>Open Settings Menu</LI>
+<LI>Choose GUI Settings</LI>
+<LI>Select PopUp TAB</LI>
+<LI>Press ADD and fill in the following fields<BR>
+        Type = Link Popup Menu<BR>
+        Title = Send to Go Fetch!<BR>
+        Command = RUN <path to browser.rexx> %u</LI>
+</OL>
+<P>
+<B>Use from the command line</B>
+<P>
+rx browser.rexx URL <url> TO <download path> PATH <GoFetch Exe>
+<P>
+Where:<BR>
+<B>URL</B>     is the site you want to create a profile for<BR>
+<B>TO</B>      (optional) An Alternative download directory, otherwise the default is used.<BR>
+<B>PATH</B>    (optional) The location of the GoFetch! executable if you want to automatically
+        start Go Fetch! and Go.
+<P>
+Examples:
+<P>
+rx browser.rexx URL ftp://site.com/dir/anotherdir/file.lha<BR>
+rx browser.rexx URL ftp://me:secret@site.com/yetanotherdir/kewl.txt<BR>
+rx browser.rexx URL ftp.hello.com/pub/gofetch.lha TO work:<BR>
+rx browser.rexx URL ftp://login:password@ftp.asite.com:2034/pub/file.lha TO work: PATH Work:comms/GoFetch!/GoFetch!
+<P>
+<P>
+If Go Fetch! is not running then it will attempt to execute it, providing you
+have specified its location on the command line. The script will then remember
+the Go Fetch! location.
+<P>
+<B>Return Codes</B><BR>
+Browser.rexx returns the following values.
+<P>
+0 = Success<BR>
+1 = Go Fetch! is not running and could not be started<BR>
+2 = Go Fetch! is not running and couldn't be located.<BR>
+3 = Go Fetch! is not running and the user chose not to start it.<BR>
+4 = Unsupported Protocol (Eg trying to use HTTP/FILE/GOPHER etc)<BR>
+5 = Invalid URL
+<P>
+-ve = Add Profile return value<BR>
+-4 = Wrong number of parameters passed to Go Fetch!<BR>
+-3 = Parameter of wrong type passed to Go Fetch!
+<P>
+
+                  <CENTER><u><FONT SIZE=5><B>StartGoFetch.miami</B> & <B>StopGoFetch.miami</B></u></FONT></CENTER>
+<P>
+These scripts are designed to automatically start and stop GO Fetch! when you go
+online. If the AREXX script finds profiles contained within Go Fetch! it will
+tell Go Fetch! to GO, otherwise it will Quit Go Fetch!. When you go offline, the
+AREXX scripts tells Go Fetch! to Stop and Quit.
+<P>
+<B>Miami Deluxe (DX) Installation</B><BR>
+<OL>
+<LI>Choose Interfaces.</LI>
+<LI>Highlight the interface you want to use Go Fetch! with when you go online.</LI>
+<LI>Press Edit</LI>
+<LI>Press Events</LI>
+<LI>Change "Active Offline" to the location of the StopGoFetch.miami script</LI>
+<LI>Change the script type to AREXX</LI>
+<LI>Repeat this for "Passive Offline"</LI>
+<LI>Change "Online" to the location of the StartGoFetch.miami script, followed by
+   the location of your Go Fetch! executable.</LI>
+<LI>Change the script type to AREXX</LI>
+<LI>Press OK and Save your settings.</LI>
+</OL>
+<P>
+<B>Miami Installation</B>
+<P>
+<OL>
+<LI>Choose Events</LI>
+<LI>Change "Active Offline" to the location of the StopGoFetch.miami script</LI>
+<LI>Change the script type to AREXX</LI>
+<LI>Repeat this for "Passive Offline"</LI>
+<LI>Change "Online" to the location of the StartGoFetch.miami script, followed by
+   the location of your Go Fetch! executanle</LI>
+<LI>Change the script type to AREXX</LI>
+<LI>Save your settings.</LI>
+</OL>
+<P>
+                              <CENTER><u><FONT SIZE=5><B>AmFTPtoGoFetch.rexx</B></u></FONT></CENTER>
+<P>
+   <CENTER>                               by Mike King     </CENTER>
+
+<P>
+This script allows you to convert an AmFTP batch file into a series of profiles
+for Go Fetch!. Please see the AREXX script for information on its use.
+
+
+</body>
+</html>

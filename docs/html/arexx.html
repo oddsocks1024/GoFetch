@@ -1,0 +1,290 @@
+<html>
+<head>
+  <title>Go Fetch! - Arexx Commands</title>
+  <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body>
+<a href="main.html">CONTENTS</a> | <a href="trans_win.html">PREV</a> | <a href="scripts.html">NEXT</a>
+<hr>
+
+                                 <font size=5><CENTER><u>Arexx Commands</u></CENTER></FONT>
+<P>
+For examples of how to use AREXX with Go Fetch!, please see included AREXX
+scripts.
+<P>
+AREXX PORT: GOFETCH
+<P>
+These returncodes apply to all Arexx Commands<BR>
+-4 = Command received wrong number of parameters<BR>
+-3 = Command received parameter of wrong type<BR>
+-2 = Out of Memory (except where stated)
+<P>
+<B>Command:</B> addanonprofile<BR>
+<B>Parameters:</B> SITE/A,PORT/A,REMOTEPATH/A,FILENAME/A,LOCALPATH/A<BR>
+<B>ReturnCodes:</B> 0 = Success<BR>
+<B>Description:</B><BR>
+Adds a new profile at the end of the profile queue in Go Fetch!. The profile is
+automatically saved. The profile will have the username anonymous and the
+password as the configured anonymous password in Go Fetch!.
+<P>
+<b>Command:</b>       addprofile<BR>
+<b>Parameters:</b>    SITE/A,PORT/A,USERNAME/A,PASSWORD/A,REMOTEPATH/A,FILENAME/A,LOCALAPTH/A<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+<b>Description:</b><BR>
+Adds a new profile at the end of the profile queue in Go Fetch!. The profile is
+automatically saved.<BR>
+<u>(See: editprofile)</u>
+<P>
+<P>
+<B>Command:</B> addsite<BR>
+<B>Parameters:</B> SITE/A<BR>
+<B>ReturnCodes:</B> 0 = Success<BR>
+             -1 = Failed, could not open site directory file.<BR>
+             -2 = Failed, Add or Edit window was open.<BR>
+<B>Description:</B><BR>
+Adds URL to the site directory. This cannot be done whilst the Add or Edit
+window is open.
+<P>
+<P>
+<b>Command:</b>       clearlog<BR>
+<b>Parameters:</b>    NONE<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+<b>Description:</b><BR>
+Clears the Go Fetch! log listview.
+<P>
+<P>
+
+<b>Command:</b>       deleteprofile<BR>
+<b>Parameters:</b>    PROFILE/N<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+              -1 = Profile doesn't exist<BR>
+<b>Description:</b><BR>
+Deletes the profile passed by the profile number. Please note that profiles are
+are numbered starting at 0. For example if there are 8 profiles in Go Fetch!
+then they are numbered from 0 to 7. Do not pass a negative profile number.<BR>
+<u>(See: profiles)</u>
+<P>
+<P>
+<b>Command:</b>       editprofile<BR>
+<b>Parameters:</b>    PROFILE/N,SITE/A,PORT/A,USERNAME/A,PASSWORD/A,REMOTEPATH/A,FILENAME/A,LOCALAPTH/A<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+              -1 = Profile doesn't exist.<BR>
+<b>Description:</b><BR>
+Edits the profile with the new specified values. Please note that the
+profiles are numbered starting at 0. For example, if there are 8 profiles in
+Go Fetch!, they will be numbered from 0 to 7. Under no circumstances should
+you pass a negative profile number for editing, this will have unpredictable
+effects. The profile is automatically saved and the profile listview is automatically
+updated to reflect the changes.<BR>
+<u>(See: profiles, addprofile)</u>
+<P>
+<P>
+<b>Command:</b>       getanon<BR>
+<b>Parameters:</b>    NONE<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+<b>ReturnString:</b>  Default Anonymous Password<BR>
+<b>Description:</b><BR>
+Returns the default anonymous password as a string, which is set in the program
+tool types, if the user has not set a password then it will return<BR>
+<a href="mailto:nobody@nobody.com">nobody@nobody.com</a>
+<P>
+<P>
+<b>Command:</b>       getdownloadpath<BR>
+<b>Parameters:</b>    NONE<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+<b>ReturnString:</b>  Default Download Directory<BR>
+<b>Description:</b><BR>
+Returns the default download directory as a string, which is set in the program
+tool types, if the user has not set a default download directory then it will
+return ram:
+<P>
+<P>
+<B>Command:</B> gofetch<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = Success<BR>
+<B>Description:</B><BR>
+Simulates the GO button. Go Fetch! will start downloading files and working
+through the profiles.
+<P>
+<P>
+<b>Command:</b>       iconify<BR>
+<b>Parameters:</b>    NONE<BR>
+<b>ReturnCodes:</b>   0 = success<BR>
+<b>Description:</b><BR>
+Iconifies Go Fetch!<BR>
+<u>(See: uniconify, iconifystatus)</u>
+<P>
+<P>
+<b>Command:</b>       iconifystatus<BR>
+<b>Parameres:</b>     NONE<BR>
+<b>ReturnCodes:</b>   0 = uniconified<BR>
+               1 = iconified<BR>
+<b>Description:</b><BR>
+Returns whether Go Fetch is iconified.<BR>
+<u>(See: iconify, uniconify)</u>
+<P>
+<P>
+<b>Command:</b>       lockgui<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Locks the Go Fetch! main window from receiving user input. This command is nested,
+therefore if you tell the window to lock twice, you must also tell it to unlock
+twice. USE WITH CAUTION.<BR>
+(See: unlockgui)
+<P>
+<P>
+<b>Command:</b> openaddwindow<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Opens the profile add window, simulates the user pressing the ADD button.
+<P>
+<P>
+<b>Command:</b> openeditwindow<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Opens the edit window, simulates the user pressing the EDIT button. Please note
+that the edit window will not open if a profile isn't active. This command will
+return 0 regardless of whether the edit window opened or not.<BR>
+(See: setactiveprofile, profiles)
+<P>
+<P>
+<b>Command:</b> profiles<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> Number of Profiles<BR>
+<b>Description:</b><BR>
+Returns the number of profiles in Go Fetch!. For example, if there are 8
+profiles in Go Fetch!, then this command will return 8.
+<P>
+<P>
+<b>Command:</b> quitgofetch<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Quits Go Fetch!
+<P>
+<P>
+<b>Command:</b> release<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> Release Number<BR>
+<b>Description:</b><BR>
+Returns the release number of Go Fetch!. Each public release of Go Fetch! will
+have it's release number incremented by 1, independant of the program version.
+<P>
+<P>
+<b>Command:</b> reloadprofiles<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Forces Go Fetch! to reload the profiles from the profiles file. This has no
+real practical use because Go Fetch! automatically updates the profiles
+whenever an addition or edit is made. This command may be useful to those who
+feel confident enough to edit the profiles file directly, however this is highly
+unadvised as an invalid profiles file may have unpredictable effects in Go
+Fetch!
+<P>
+<P>
+<b>Command:</b> savelog<BR>
+<b>Parameters:</b> PATH/A<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+            -1 = Unable to save logfile. Check your path.<BR>
+<b>Description:</b><BR>
+Saves the Go Fetch! log with a filename of gofetch.log at the chosen path.
+<P>
+<P>
+<b>Command:</b> setactiveprofile<BR>
+<b>Parameters:</b> PROFILE/N<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+            -1 = Profile doesn't exist<BR>
+<b>Description:</b><BR>
+Highlights the profile entry in the profile listview passed by the profile
+number. Please note that profiles are numbered starting at 0. For example if
+there are 8 profiles in Go Fetch! then they are numbered from 0 to 7. Do not
+pass a negative profile number.<BR>
+(See: profiles)
+<P>
+<P>
+<B>Command:</B> stop<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+<B>Description:</B><BR>
+Aborts the current file transfer, and stop Go Fetch! from moving onto the next
+profile.
+<P>
+<P>
+<b>Command:</b> uninconify<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Uniconifies Go Fetch!<BR>
+(See: iconify)
+<P>
+<P>
+<b>Command:</b> unlockgui<BR>
+<b>Parameters:</b> NONE<BR>
+<b>ReturnCodes:</b> 0 = success<BR>
+<b>Description:</b><BR>
+Unlocks the Go Fetch! main window to allow user input after the lockgui command
+has been issued. This command is nested, therefore if you tell the window to
+lock twice, you must also tell it to unlock twice.<BR>
+(See: lockgui)
+<P>
+<P>
+<B>Command:</B> windowopen<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = No Windows Open<BR>
+             1 = Add Window Open<BR>
+             2 = Edit Window Open<BR>
+<B>Description:</B><BR>
+Returns whether any windows are currently open (Add, Edit).
+
+
+                          <FONT SIZE=5><CENTER><U>Standard MUI Arexx Commands</U></CENTER></FONT>
+<P>
+<B>Command:</B> HELP<BR>
+<B>Parameters:</B> FILE/A<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+<B>Description:</B><BR>
+Lists GO Fetch Arexx Commands into the file specified.
+<P>
+<P>
+<B>Command:</B> HIDE<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+<B>Description:</B><BR>
+Iconifies Go Fetch!
+<P>
+<P>
+<B>Command:</B> INFO<BR>
+<B>Parameters:</B> ITEM/A<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+Returns requested string in result.<BR>
+<B>Description:</B><BR>
+Where ITEM is:<BR>
+TITLE = Title of Application<BR>
+AUTHOR = Author of Application<BR>
+COPYRIGHT = Copyright Message<BR>
+DESCRIPTION = Description of Go Fetch<BR>
+VERSION = Current Version<BR>
+BASE = Name of AREXX Port<BR>
+SCREEN = Name of public screen
+<P>
+<P>
+<B>Command:</B> QUIT<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+<B>Description:</B><BR>
+Quits Go Fetch!
+<P>
+<P>
+<B>Command:</B> SHOW<BR>
+<B>Parameters:</B> NONE<BR>
+<B>ReturnCodes:</B> 0 = success<BR>
+<B>Description:</B><BR>
+Uniconfies Go Fetch!
+
+
+</body>
+</html>

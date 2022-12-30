@@ -1,0 +1,132 @@
+/*
+	$VER: GoFetch.br 1.0 (11.12.99)
+	by Neil Bothwick
+
+	GoFetch.br will transfer files selected for download in THOR
+	from the Events editor to the GoFetch! profiles list.
+
+	Usage: GoFetch.br SystemName/A
+
+	If you want to do the transfer from within THOR, run GoFetch.thor
+	from the Arexx menu or as the system Exit command.
+	GoFetch.thor simply determines the current system name and passes
+	it to GeFetch.br.
+
+	Installation involves copying both scripts to Thor/rexx, editing
+	the GFPath variable to point to your copy of GoFetch! and setting
+	FetchReadme to 1 if you want GoFetch! to get the Aminet readme files too
+*/
+
+GFPath       = 'GoFetch:GoFetch!'   /* Edit this, this would be unnecessary if GoFetch! used an assign or env var */
+FetchReadme  = 0                    /* Set this to 1 if you want the Aminet readmes */
+AminetServer = 'de.aminet.net'      /* You can set this to use one of the Aminet mirrors instead of the main site */
+
+/* Do not change anything below here */
+parse arg System
+
+/* Event types */
+EVE_DOWNLOAD     =  4               /* Download file */
+EVE_UPLOAD       =  5               /* Upload file */
+
+/* Event flags */
+EDF_DELETED       = '00000001'x     /* Event is deleted */
+EDF_DONE          = '00000004'x     /* Event is done */
+EDF_ERROR         = '00000008'x     /* Error performing this event */
+
+CompMask = bitor(EDF_DELETED,EDF_DONE)
+
+/* Make sure bbsread.library and GoFetch! are open */
+options results
+if ~show('p', 'BBSREAD') then do
+	address command
+	'run >nil: `GetEnv THOR/THORPath`bin/LoadBBSRead'
+	'WaitForPort BBSREAD'
+	end
+
+if ~show('P','GOFETCH') then do
+	ProgStart = 1
+	address command
+	'run >NIL:' GFPath
+	'waitforport GOFETCH'
+	address 'GOFETCH' 'iconify'
+	end
+
+
+/* Build list of download events */
+address 'BBSREAD'
+GETBBSDATA System SystemData
+FirstEvent = SystemData.FIRSTEVENT
+LastEvent  = SystemData.LASTEVENT
+
+Count = 0
+drop DLEvent.
+do EventNo = FirstEvent to LastEvent
+	drop EventData. EventTags.
+	READBREVENT '"'System'"' eventnr EventNo datastem EventData tagsstem EventTags
+	if RC > 0 then ExitMsg(BBSREAD.LASTERROR)
+	if (EventData.EVENTTYPE = EVE_DOWNLOAD) & (c2d(bitand(EventData.FLAGS,CompMask)) = 0) then do
+		Count = Count + 1
+		DLEvent.Count.No = EventNo
+		DLEvent.Count.Dir  = EventTags.DIRECTORY
+		DLEvent.Count.File = EventTags.FILENAME
+		end
+	end
+
+if Count = 0 then exit
+
+/* Create new download events */
+address 'GOFETCH'
+'getanon'
+AnonPass = result
+'getdownloadpath'
+DownloadDir = result
+drop AddFail.
+
+do i = 1 to Count
+	ThisDir = DLEvent.i.Dir
+	ThisFile = DLEvent.i.File
+	Readme = left(ThisFile,lastpos('.',ThisFile))||'readme'
+	if upper(left(ThisFile,6)) = 'FTP://' then do
+		parse var ThisFile . '://' Server '/' Path
+		ThisDir = PathPart(Path)
+		ThisFile = FilePart(Path)
+		end
+	else do
+		Server = AminetServer
+		ThisDir = AddPart('pub/aminet',ThisDir)
+		end
+
+	AddFail.i = 0
+	if FetchReadme > 0 then do
+		'addanonprofile site' server 'port 21 remotepath' ThisDir 'filename' Readme   'localpath' DownloadDir
+		AddFail.i = AddFail.i + RC
+		end
+	'addanonprofile site' server 'port 21 remotepath' ThisDir 'filename' ThisFile 'localpath' DownloadDir
+	AddFail.i = AddFail.i + RC
+	end
+
+if ProgStart = 1 then 'quitgofetch'
+
+/* Mark original download events as deleted */
+address 'BBSREAD'
+do i = 1 to Count
+	if AddFail.i = 0 then do
+		UPDATEBREVENT '"'System'"' DLEvent.i.No SETDELETED
+		if RC > 0 then ExitMsg(BBSREAD.LASTERROR)
+		end
+	end
+
+/* Clear events list if possible */
+PACKDATAFILE '"'System'"' EVENTDATA
+if RC > 0 then ExitMsg(BBSREAD.LASTERROR)
+
+
+exit
+
+ExitMsg:
+	parse arg msg
+	say
+	say msg
+	say
+	exit
+

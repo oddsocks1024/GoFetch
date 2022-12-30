@@ -1,0 +1,251 @@
+; $VER: Go Fetch! Version 1.2 Install (1.2.3)
+; (c) 1999 Ian Chapman
+; Written For Zeus Developments
+
+;Procedure to copy newicons
+
+;NOTE This command is OS3.5 Only
+;(effect "center" "radial" $0000FF $00FF00)
+
+(procedure copynicons
+    (copyfiles
+        (source "icons/GoFetch!_NI256.info")
+        (newname "GoFetch!.info")
+        (dest @default-dest)
+    )
+
+    (copyfiles
+        (source "icons/GoFetch!_NI256.info")
+        (newname "def_gofetch.info")
+        (dest "ENVARC:sys/")
+    )
+
+)
+
+(procedure copyicons
+    (copyfiles
+        (source "icons/GoFetch!_ST8.info")
+        (newname "GoFetch!.info")
+        (dest @default-dest)
+    )
+
+    (copyfiles
+        (source "icons/GoFetch!_ST8.info")
+        (newname "def_gofetch.info")
+        (dest "ENVARC:sys/")
+    )
+
+)
+
+(procedure copy35icons
+    (copyfiles
+        (source "icons/GoFetch!_OS35.info")
+        (newname "GoFetch!.info")
+        (dest @default-dest)
+    )
+
+    (copyfiles
+        (source "icons/GoFetch!_OS35.info")
+        (newname "def_gofetch.info")
+        (dest "ENVARC:sys/")
+    )
+
+)
+
+(procedure copyorigicons
+    (copyfiles
+        (source "icons/GoFetch!_orig.info")
+        (newname "GoFetch!.info")
+        (dest @default-dest)
+    )
+
+    (copyfiles
+        (source "icons/GoFetch!_orig.info")
+        (newname "def_gofetch.info")
+        (dest "ENVARC:sys/")
+    )
+
+)
+
+
+(procedure copysitelist
+    (copyfiles
+        (source "sitelist.gofetch")
+        (dest @default-dest)
+    )
+)
+
+(procedure moveprofs
+    (copyfiles
+        (source "ENVARC:gofetch.profs")
+        (dest @default-dest)
+    )
+    (delete "ENVARC:gofetch.profs")
+)
+
+(welcome "Welcome to Go Fetch!\n\n\n")
+
+;Introduction message
+
+(message "Welcome to the Go Fetch! 1.2 Installation Utility\n (c) 1999 Ian Chapman. Written for Zeus Developments\n\nA full installation requires approximately 460K of Hard Drive Space")
+; Ask for installation directory
+
+(set @default-dest
+    (askdir
+        (prompt "Where would you like to install GoFetch! 1.2\n(NB A new directory called GoFetch! will be created, if it does not exist.)")
+        (help "The installer is asking where you would like GoFetch! and related files to be installed. A new directory called GoFetch! will be created for you, if it does not already exist.")
+        (default "Ram:")
+        )
+)
+
+(set @default-dest (tackon @default-dest "GoFetch!"))
+(makedir @default-dest)
+(copyfiles
+    (source "GoFetch!")
+    (dest @default-dest)
+)
+
+(copyfiles
+    (infos)
+    (source "GoFetch!.guide")
+    (dest @default-dest)
+)
+
+(copyfiles
+    (infos)
+    (source "Readme.1st")
+    (dest @default-dest)
+)
+
+
+(makedir (tackon @default-dest "Arexx"))
+(makedir (tackon @default-dest "HTML_Docs"))
+
+
+(copyfiles
+    (prompt "Where should I copy the GoFetch! AREXX scripts to?\n(Please read the AREXX documentation.)")
+    (infos)
+    (all)
+    (source "Arexx")
+    (dest (tackon @default-dest "Arexx"))
+    (help "The installer is asking you where you would like to install the specified AREXX scripts. These AREXX scripts are designed to integrate Go Fetch! with your web browser and other internet software, as well as perform specific tasks. Read the documentation to find out how to setup your Web Browser to use them.\n\nIf you are not sure where to install them, choose proceed to install them in the default directory.")
+    (confirm)
+)
+
+(copyfiles
+    (prompt "Where would you like me to copy the HTML docs?\n\n(The HTML docs have been discontinued. These docs apply to 0.95b only)")
+    (infos)
+    (all)
+    (source "HTML_Docs")
+    (dest (tackon @default-dest "HTML_Docs"))
+    (help "The installer is asking you where you would like to install the HTML documentation for Go Fetch!. The HTML documentation, supplied with this version of Go Fetch! applies to version 0.95b only. If you are unsure, choose proceed to install them in the default directory.")
+    (confirm)
+)
+
+(copylib
+    (prompt "About to install reqtools.library")
+    (source "libs/reqtools.library")
+    (dest "libs:")
+    (help "Copying Library")
+    (confirm)
+)
+
+;Amiga OS 3.5 Only
+;(showmedia 'ICONS' "icons/iconpreview.jpg" "upper_left" "none" 0)
+
+(set iconchoice (askchoice
+                (prompt "Please choose your preferred Go Fetch! icon.")
+                (choices "256 Colour NewIcon" "256 Colour AmigaOS 3.5 Icon" "256 Colour Original NewIcon" "8 Colour Standard Icon" "Keep my currently installed icon.")
+                (help "The installer is asking which icon set you would like installed.\n\n256 Colour NewIcons: Requires NewIcons, or AmigaOS 3.5 with NewIcons support enabled.\n\n256 Colour AmigaOS 3.5 Icons: Requires AmigaOS 3.5 is installed.\n\n8 Colour Standard Icons: Any Amiga OS.\n\nKeep Current: Does not change the Go Fetch! icon, if you already have Go Fetch! installed.")
+                (default 0)
+                )
+)
+
+;Amiga OS 3.5 Only
+;(closemedia ICONS)
+
+(if
+    (= 0 iconchoice)
+    (copynicons)
+)
+
+(if
+    (= 1 iconchoice)
+    (copy35icons)
+)
+
+(if
+    (= 2 iconchoice)
+    (copyorigicons)
+)
+
+
+(if
+    (= 3 iconchoice)
+    (copyicons)
+)
+
+
+(if
+    (= 0
+        (askchoice
+            (prompt "Should I install the default site-list for the site directory?\n(Note: If you already have a site-list it will be overwritten if you choose Yes.)")
+            (choices "Yes" "No")
+            (help "The site directory is a feature of Go Fetch! which allows you to store commonly used URLs, to avoid you from typing them again. If you already have a site-list installed, choosing yes will overwrite it.")
+            (default 0)
+         )
+     )
+     (copysitelist)
+
+)
+
+
+(if
+    ( = 1
+        (exists "ENVARC:gofetch.profs")
+    )
+    (if
+        (= 0
+            (askchoice
+                (prompt "From Version 0.95b Go Fetch! now stores its profiles in the program directory. Would you like me to move your profiles contained in ENVARC:?")
+                (choices "Yes" "No")
+                (help "Go Fetch! now stores its profiles in the program directory. The installer is asking if you would like your old profiles moved to the new directory, so you can continue to use them.")
+                (default 0)
+            )
+         )
+         (moveprofs)
+    )
+    
+)
+
+
+(startup "GoFetch!"
+    (prompt "Would you like me to add an environment variable to your user-startup?\n(Note: Some AREXX scripts may require this to locate Go Fetch!)\n\n\nIf you prefer, this can be added manually by placing the following in your user-startup\nSetenv GOFETCH "@default-dest)
+    (help "Some AREXX scripts may offer you the ability to automatically run Go Fetch!. To do this they will rely on the Go Fetch! environment variable to be set. If you are unsure whether you need this, it is safe to proceed")
+    (command "setenv GOFETCH "@default-dest)
+    (confirm)
+)
+
+;OS 3.5 Only Section
+;(openwbobject @default-dest)
+
+;(set bootchoice (askchoice
+;                (prompt "A reboot may be required.\nDo you want to reboot now?")
+;                (choices "Yes" "No")
+;                (help "The installer is asking which icon set you would like installed.\n\n256 Colour NewIcons: Requires NewIcons, or AmigaOS 3.5 with NewIcons support enabled.\n\n256 Colour AmigaOS 3.5 Icons: Requires AmigaOS 3.5 is installed.\n\n8 Colour Standard Icons: Any Amiga OS.\n\nKeep Current: Does not change the Go Fetch! icon, if you already have Go Fetch! installed.")
+;                (default 0)
+;                )
+;)
+
+;(if
+;    (= 0 bootchoice)
+;    (Message "Installation is complete!\n\nVisit: www.bleach.demon.co.uk/gofetch/\nE-Mail: ian.chapman@bleach.demon.co.uk\n")
+;)
+
+;(if (= 0 bootchoice)
+;    (reboot)
+;)
+
+
+(exit "Installation is complete!\n\nVisit: www.bleach.demon.co.uk/gofetch/\nE-Mail: ian.chapman@bleach.demon.co.uk\n\nPlease note, before using Go Fetch!, configure your preferences then save them." (quiet))
+

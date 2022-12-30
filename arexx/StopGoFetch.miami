@@ -1,0 +1,18 @@
+/*
+** GoFetch Arexx Script
+** Written by Ian Chapman/Marc Bradshaw
+** for Zeus Developments
+**
+** V1.0 29.10.99
+**
+** This script can be used with MiamiDX to automatically
+** stop and quit Go Fetch! when you go offline.
+*/
+
+PortName = 'GOFETCH'
+
+If Show('p','GOFETCH') Then Do
+    Interpret 'Address 'PortName' stop'
+    Interpret 'Address 'PortName' quit'
+End
+

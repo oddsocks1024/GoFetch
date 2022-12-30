@@ -1,0 +1,60 @@
+/*
+** GoFetch Arexx Script
+** Written by Ian Chapman/Marc Bradshaw
+** for Zeus Developments
+**
+** V1.0 29.10.99
+**
+** This script can be used with MiamiDX to automatically
+** start Go Fetch! and tell it go when you go online.
+*/
+
+/*
+** Arguments:   (see Go Fetch documentation for in-depth descriptions)
+** MiamiStart.rexx <path to gofetch>
+** e.g.
+** MiamiStart.rexx work:comms/gofetch!/gofetch!
+*/
+
+Options Results
+
+PortName = 'GOFETCH'
+
+CommandArg = Arg(1)
+
+IF ~SHOW('LIBRARIES','rexxsuport.library') THEN
+    Call ADDLIB('rexxsupport.library',10,-30,0)
+
+If ~Exists(CommandArg) Then Do
+    Say 'Given Path to GoFetch! Was Invalid.'
+    Exit 1
+End
+
+WasLoaded=0
+If ~Show('P',PortName) Then Do
+    WasLoaded=1
+    Address Command 'RUN <>NIL: 'CommandArg
+    Do I=1 to 15
+        Call Delay(100)
+        If Show('P',PortName) THEN I=15
+    End
+End
+
+If ~Show('P',PortName) Then Do
+    Say 'Error Loading GoFetch! Please Investigate.'
+    Exit 1
+End
+
+Interpret 'Address 'PortName' profiles'
+Number = RC
+
+If Number = 0 Then Do
+    /* There are no waiting files - Exit */
+    If WasLoaded=0 Then
+        Interpret 'Address 'PortName' QUIT'
+    End
+Else Do
+    /* There is stuff to do, Do it */
+    Interpret 'Address 'PortName' gofetch'
+End
+
